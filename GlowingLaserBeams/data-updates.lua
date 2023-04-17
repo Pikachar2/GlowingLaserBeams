@@ -37,11 +37,6 @@ local glow_blend_mode = nil
 	data.raw.beam["laser-beam"].head.layers[1].filename = "__GlowingLaserBeams__/graphics/beam-body-color.png"
 	data.raw.beam["laser-beam"].head.layers[1].tint = {r=r,g=g,b=b}
 	data.raw.beam["laser-beam"].head.layers[2].filename = "__GlowingLaserBeams__/graphics/beam-body-light.png"
-
---	data.raw.beam["laser-beam"].head.layers[1].filename = "__laser_fix__/graphics/beam-body-color.png"
---	data.raw.beam["laser-beam"].head.layers[1].tint = {r=r,g=g,b=b}
---	data.raw.beam["laser-beam"].head.layers[2].filename = "__laser_fix__/graphics/beam-body-light.png"
-	
 	
 	data.raw.beam["laser-beam"].tail =
 	{
