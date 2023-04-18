@@ -11,6 +11,11 @@ local graphics_location = "__GlowingLaserBeams__/graphics/"
 local laserBeam = "laser-beam"
 
 
+function rgbToDecimal(rgbValue)
+	return rgbValue / 255
+end
+
+
 	--if settings.startup["laserfix-color"].value == "'Disco'" then
 	--	r = 1
 	--	g = 1
@@ -20,12 +25,12 @@ local laserBeam = "laser-beam"
 	--	glow_b = 1
 	--	path = "disco/"
 	--else
-		r = settings.startup["laserfix-r"].value
-		g = settings.startup["laserfix-g"].value
-		b = settings.startup["laserfix-b"].value
-		glow_r=settings.startup["laserfix-glow-r"].value
-		glow_g=settings.startup["laserfix-glow-g"].value
-		glow_b=settings.startup["laserfix-glow-b"].value
+		r = rgbToDecimal(settings.startup["laserfix-r"].value)
+		g = rgbToDecimal(settings.startup["laserfix-g"].value)
+		b = rgbToDecimal(settings.startup["laserfix-b"].value)
+		glow_r = rgbToDecimal(settings.startup["laserfix-glow-r"].value)
+		glow_g = rgbToDecimal(settings.startup["laserfix-glow-g"].value)
+		glow_b = rgbToDecimal(settings.startup["laserfix-glow-b"].value)
 	--end
 	
 	data.raw.beam[laserBeam].head =
