@@ -32,53 +32,36 @@ end
 		glow_g = rgbToDecimal(settings.startup["laserfix-glow-g"].value)
 		glow_b = rgbToDecimal(settings.startup["laserfix-glow-b"].value)
 	--end
+
+--log ('BEFORE: data.raw.beam[laserBeam]: ' .. serpent.block(data.raw.beam[laserBeam]))
+	data.raw.beam[laserBeam].graphics_set.beam.head = table.deepcopy(data.raw.beam[laserBeam].graphics_set.beam.head)
+	data.raw.beam[laserBeam].graphics_set.beam.head.layers[1].filename = graphics_location .. "beam-body-color.png"
+	data.raw.beam[laserBeam].graphics_set.beam.head.layers[1].tint = {r=r,g=g,b=b}
+	data.raw.beam[laserBeam].graphics_set.beam.head.layers[2].filename = graphics_location .. "beam-body-light.png"
 	
-	data.raw.beam[laserBeam].head =
-	{
-		layers = 
-		{
-			table.deepcopy(data.raw.beam[laserBeam].head),
-			table.deepcopy(data.raw.beam[laserBeam].head)
-		}
-	}
-	data.raw.beam[laserBeam].head.layers[1].filename = graphics_location .. "beam-body-color.png"
-	data.raw.beam[laserBeam].head.layers[1].tint = {r=r,g=g,b=b}
-	data.raw.beam[laserBeam].head.layers[2].filename = graphics_location .. "beam-body-light.png"
+	data.raw.beam[laserBeam].graphics_set.beam.tail = table.deepcopy(data.raw.beam[laserBeam].graphics_set.beam.tail)
+
+	data.raw.beam[laserBeam].graphics_set.beam.tail.layers[1].filename = graphics_location .. "beam-end-color.png"
+	data.raw.beam[laserBeam].graphics_set.beam.tail.layers[1].tint = {r=r,g=g,b=b}
+	data.raw.beam[laserBeam].graphics_set.beam.tail.layers[2].filename = graphics_location .. "beam-end-light.png"
 	
-	data.raw.beam[laserBeam].tail =
-	{
-		layers = 
-		{
-			table.deepcopy(data.raw.beam[laserBeam].tail),
-			table.deepcopy(data.raw.beam[laserBeam].tail)			
-		}
-	}
-	data.raw.beam[laserBeam].tail.layers[1].filename = graphics_location .. "beam-end-color.png"
-	data.raw.beam[laserBeam].tail.layers[1].tint = {r=r,g=g,b=b}
-	data.raw.beam[laserBeam].tail.layers[2].filename = graphics_location .. "beam-end-light.png"
-	
-	data.raw.beam[laserBeam].body =
-    {
-		layers = 
-		{
-			table.deepcopy(data.raw.beam[laserBeam].body[1]),
-			table.deepcopy(data.raw.beam[laserBeam].body[1])			
-		}
-    }
-data.raw.beam[laserBeam].body.layers[1].filename = graphics_location .. "beam-body-color.png"
-data.raw.beam[laserBeam].body.layers[1].tint = {r=r,g=g,b=b}
-data.raw.beam[laserBeam].body.layers[2].filename = graphics_location .. "beam-body-light.png"
+	data.raw.beam[laserBeam].graphics_set.beam.body = table.deepcopy(data.raw.beam[laserBeam].graphics_set.beam.body)
 
-if settings.startup["laserfix-doubletint"].value then
-	data.raw.beam[laserBeam].head.layers[2].tint = {r=r,g=g,b=b}
-	data.raw.beam[laserBeam].tail.layers[2].tint = {r=r,g=g,b=b}
-	data.raw.beam[laserBeam].body.layers[2].tint = {r=r,g=g,b=b}
-end
+	data.raw.beam[laserBeam].graphics_set.beam.body[1].layers[1].filename = graphics_location .. "beam-body-color.png"
+	data.raw.beam[laserBeam].graphics_set.beam.body[1].layers[1].tint = {r=r,g=g,b=b}
+	data.raw.beam[laserBeam].graphics_set.beam.body[1].layers[2].filename = graphics_location .. "beam-body-light.png"
 
-data.raw.beam[laserBeam].ground_light_animations.head.tint = {r=glow_r,g=glow_g,b=glow_b}
-data.raw.beam[laserBeam].ground_light_animations.tail.tint = {r=glow_r,g=glow_g,b=glow_b}
-data.raw.beam[laserBeam].ground_light_animations.body.tint = {r=glow_r,g=glow_g,b=glow_b}
+	if settings.startup["laserfix-doubletint"].value then
+		data.raw.beam[laserBeam].graphics_set.beam.head.layers[2].tint = {r=r,g=g,b=b}
+		data.raw.beam[laserBeam].graphics_set.beam.tail.layers[2].tint = {r=r,g=g,b=b}
+		data.raw.beam[laserBeam].graphics_set.beam.body[1].layers[2].tint = {r=r,g=g,b=b}
+	end
 
+	data.raw.beam[laserBeam].graphics_set.ground.head.tint = {r=glow_r,g=glow_g,b=glow_b}
+	data.raw.beam[laserBeam].graphics_set.ground.tail.tint = {r=glow_r,g=glow_g,b=glow_b}
+	data.raw.beam[laserBeam].graphics_set.ground.body.tint = {r=glow_r,g=glow_g,b=glow_b}
 
-data.raw.beam[laserBeam].light_animations.head.filename = graphics_location .. "hr-laser-body-light.png"
-data.raw.beam[laserBeam].light_animations.body[1].filename = graphics_location .. "hr-laser-body-light.png"
+	data.raw.beam[laserBeam].graphics_set.beam.head.layers[2].filename = graphics_location .. "hr-laser-body-light.png"
+	data.raw.beam[laserBeam].graphics_set.beam.body[1].layers[2].filename = graphics_location .. "hr-laser-body-light.png"
+
+--log ('AFTER: data.raw.beam[laserBeam]: ' .. serpent.block(data.raw.beam[laserBeam]))
