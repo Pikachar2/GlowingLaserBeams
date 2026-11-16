@@ -2,10 +2,6 @@ local graphics_location = "__GlowingLaserBeams__/graphics/"
 local double_tint = settings.startup["laserfix-doubletint"].value
 local color_mode = settings.startup["laserfix-color"].value
 
-local function rgbToDecimal(rgbValue)
-	return rgbValue / 255
-end
-
 -- Safely applies custom sprites and tints to any beam prototype (vanilla or modded)
 local function applyBeamStyle(beam, color, glow_color)
 	local gs = beam.graphics_set
@@ -37,7 +33,7 @@ local function applyBeamStyle(beam, color, glow_color)
 
 	-- Body
 	gs.beam.body = table.deepcopy(gs.beam.body)
-	if gs.beam.body[1] then
+	if gs.beam.body and gs.beam.body[1] then
 		for i = 1, #gs.beam.body do
 			stylePart(gs.beam.body[i], "beam-body-color.png", "hr-laser-body-light.png")
 		end
@@ -85,18 +81,10 @@ if color_mode == "Disco" then
 		end
 	end
 else
-	local r = rgbToDecimal(settings.startup["laserfix-r"].value)
-	local g = rgbToDecimal(settings.startup["laserfix-g"].value)
-	local b = rgbToDecimal(settings.startup["laserfix-b"].value)
-	local glow_r = rgbToDecimal(settings.startup["laserfix-glow-r"].value)
-	local glow_g = rgbToDecimal(settings.startup["laserfix-glow-g"].value)
-	local glow_b = rgbToDecimal(settings.startup["laserfix-glow-b"].value)
+	local core_color = settings.startup["laserfix-core-color"].value
+	local glow_color = settings.startup["laserfix-glow-color"].value
 
 	for _, base_beam in ipairs(target_beams) do
-		applyBeamStyle(
-			base_beam,
-			{ r = r, g = g, b = b },
-			{ r = glow_r, g = glow_g, b = glow_b }
-		)
+		applyBeamStyle(base_beam, core_color, glow_color)
 	end
 end
