@@ -1,11 +1,11 @@
 {
   "name": "GlowingLaserBeams",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "title": "Glowing Laser Beams",
   "author": "Pikachar",
   "contact": "",
-  "homepage": "https://github.com/Pikachar2/GlowingLaserBeams",
+  "homepage": "https://github.com",
   "factorio_version": "2.1",
-  "dependencies": ["base", "?Krastorio", "?Turret_Range_Buff"],
-  "description": "Custom colors for laser beams"
+  "dependencies": ["base >= 2.1.24", "?space-exploration", "?Krastorio2", "?Turret_Range_Buff"],
+  "description": "Custom colors and Disco mode for laser beams"
 }
