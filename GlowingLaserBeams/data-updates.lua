@@ -2,19 +2,43 @@ local graphics_location = "__GlowingLaserBeams__/graphics/"
 local double_tint = settings.startup["laserfix-doubletint"].value
 local color_mode = settings.startup["laserfix-color"].value
 
--- Safely applies custom sprites and tints to any beam prototype (vanilla or modded)
+local vanilla_beam = data.raw.beam["laser-beam"]
+local vanilla_gs = vanilla_beam and vanilla_beam.graphics_set
+
+-- Helper: checks if a modded beam part matches vanilla's exact sprite dimensions
+local function matchesVanillaDimensions(part, vanilla_part)
+	if not part or not vanilla_part then return false end
+	if not part.layers or not part.layers[1] or not vanilla_part.layers or not vanilla_part.layers[1] then
+		return false
+	end
+	local l1 = part.layers[1]
+	local v1 = vanilla_part.layers[1]
+	return l1.width == v1.width and l1.height == v1.height
+end
+
+-- Safely applies custom sprites (when dimensions match) or tints (when custom-sized) to any beam
 local function applyBeamStyle(beam, color, glow_color)
 	local gs = beam.graphics_set
 	if not gs or not gs.beam then return end
 
-	local function stylePart(part, color_png, light_png)
+	local function stylePart(part, vanilla_part, color_png, light_png)
 		if not part then return end
+
 		if part.layers and part.layers[1] then
-			part.layers[1].filename = graphics_location .. color_png
-			part.layers[1].tint = color
-			if part.layers[2] then
-				part.layers[2].filename = graphics_location .. light_png
-				if double_tint then
+			if matchesVanillaDimensions(part, vanilla_part) then
+				-- Dimensions match our PNGs: safe to swap filenames
+				part.layers[1].filename = graphics_location .. color_png
+				part.layers[1].tint = color
+				if part.layers[2] then
+					part.layers[2].filename = graphics_location .. light_png
+					if double_tint then
+						part.layers[2].tint = color
+					end
+				end
+			else
+				-- Custom modded sprite size (e.g. 64x13): keep mod's PNGs and apply tint only
+				part.layers[1].tint = color
+				if part.layers[2] and double_tint then
 					part.layers[2].tint = color
 				end
 			end
@@ -24,21 +48,28 @@ local function applyBeamStyle(beam, color, glow_color)
 	end
 
 	-- Head
-	gs.beam.head = table.deepcopy(gs.beam.head)
-	stylePart(gs.beam.head, "beam-body-color.png", "hr-laser-body-light.png")
+	if gs.beam.head then
+		gs.beam.head = table.deepcopy(gs.beam.head)
+		stylePart(gs.beam.head, vanilla_gs and vanilla_gs.beam.head, "beam-body-color.png", "hr-laser-body-light.png")
+	end
 
 	-- Tail
-	gs.beam.tail = table.deepcopy(gs.beam.tail)
-	stylePart(gs.beam.tail, "beam-end-color.png", "beam-end-light.png")
+	if gs.beam.tail then
+		gs.beam.tail = table.deepcopy(gs.beam.tail)
+		stylePart(gs.beam.tail, vanilla_gs and vanilla_gs.beam.tail, "beam-end-color.png", "beam-end-light.png")
+	end
 
 	-- Body
-	gs.beam.body = table.deepcopy(gs.beam.body)
-	if gs.beam.body and gs.beam.body[1] then
-		for i = 1, #gs.beam.body do
-			stylePart(gs.beam.body[i], "beam-body-color.png", "hr-laser-body-light.png")
+	if gs.beam.body then
+		gs.beam.body = table.deepcopy(gs.beam.body)
+		local vanilla_body_1 = vanilla_gs and vanilla_gs.beam.body and vanilla_gs.beam.body[1]
+		if gs.beam.body[1] then
+			for i = 1, #gs.beam.body do
+				stylePart(gs.beam.body[i], vanilla_body_1, "beam-body-color.png", "hr-laser-body-light.png")
+			end
+		else
+			stylePart(gs.beam.body, vanilla_body_1, "beam-body-color.png", "hr-laser-body-light.png")
 		end
-	else
-		stylePart(gs.beam.body, "beam-body-color.png", "hr-laser-body-light.png")
 	end
 
 	-- Ground glow

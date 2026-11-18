@@ -1,10 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.1
+  Bugfixes:
+    - Fixed a sprite atlas loading crash when other mods define custom laser beams with different sprite sheet dimensions by falling back to tint-only styling.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.1.0
   Features:
     - Added Disco mode, firing a random rainbow color on every laser shot.
     - Replaced the six separate RGB number settings with Factorio's native RGB color pickers.
-    - Added automatic compatibility for modded laser beams, turrets, equipment, and handheld laser weapons (such as Krastorio 2).
-  Locale:
+    - Added automatic compatibility for modded laser beams, turrets, equipment, and handheld laser weapons (such as Krastorio 2 and Space Exploration).
     - Added localizations for German (de), Spanish (es-ES), French (fr), Japanese (ja), Korean (ko), Polish (pl), Portuguese (pt-BR), Russian (ru), and Simplified Chinese (zh-CN).
   Changes:
     - Targeted Factorio 2.1.24.
